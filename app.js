@@ -57,6 +57,19 @@ app.get('/book/:id', async (req, res) => {
     }
 })
 
+app.delete('/book/:id', async (req, res) => {
+    const {id} = req.params
+    await Book.findByIdAndDelete(id)
+    try {
+        res.status(200).json({
+        message : 'Book deleted successfully'
+    })
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong"
+        })
+    }
+})
 
 
 
