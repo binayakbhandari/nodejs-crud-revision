@@ -3,6 +3,12 @@ const app = express()
 const connectToDatabase = require('./database')
 const Book = require('./model/bookModel')
 require('dotenv').config()
+// multerConfig imports
+const { multer, storage } = require('./middleware/multerConfig')
+const upload = multer({storage: storage})
+
+
+
 
 app.use(express.json())
 connectToDatabase()
@@ -13,7 +19,7 @@ app.get('/', (req, res) => {
     })
 })
 // post api
-app.post('/book', async (req, res) => {
+app.post('/book', upload.single('image'), async (req, res) => {
     const {bookName, bookPrice, isbnNumber, authorName, publishedAt} = req.body
     console.log(req.body)
     await Book.create({
