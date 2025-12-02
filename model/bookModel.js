@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const bookSchema = new mongoose.Schema({
     bookName : {
         type : String,
-        unique : true
+        unique : true,
     },
     bookPrice : {
         type : Number
@@ -16,7 +16,11 @@ const bookSchema = new mongoose.Schema({
     },
     publishedAt : {
         type : String
+    },
+    imageUrl : {
+        type : String
     }
+
 })
 
 const Book = mongoose.model('Book', bookSchema)

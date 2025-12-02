@@ -20,14 +20,20 @@ app.get('/', (req, res) => {
 })
 // post api
 app.post('/book', upload.single('image'), async (req, res) => {
+    if(!req.file){
+        fileName = 'https://cdn.mos.cms.futurecdn.net/i26qpaxZhVC28XRTJWafQS-800-80.jpeg'
+    } else {
+        fileName = `http://localhost:3000/${req.file.filename}`
+    }
     const {bookName, bookPrice, isbnNumber, authorName, publishedAt} = req.body
-    console.log(req.body)
+    console.log(req.file)
     await Book.create({
         bookName,
         bookPrice,
         isbnNumber,
         authorName,
-        publishedAt
+        publishedAt,
+        imageUrl : fileName
     })
     res.status(200).json({
         message : "Book created successfully"
@@ -80,6 +86,7 @@ app.delete('/book/:id', async (req, res) => {
 app.patch('/book/:id', async (req, res) => {
     const {id} = req.params
     const {bookName, bookPrice, isbnNumber, authorName, publishedAt} = req.body
+    
     await Book.findByIdAndUpdate(id, {
         bookName,
         bookPrice,
@@ -95,8 +102,8 @@ app.patch('/book/:id', async (req, res) => {
 
 
 
-
-
+// To access the images of storage folder from the browser
+app.use(express.static('./storage'))
 
 
 
