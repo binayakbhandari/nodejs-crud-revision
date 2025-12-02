@@ -71,7 +71,21 @@ app.delete('/book/:id', async (req, res) => {
     }
 })
 
-
+app.patch('/book/:id', async (req, res) => {
+    const {id} = req.params
+    const {bookName, bookPrice, isbnNumber, authorName, publishedAt} = req.body
+    await Book.findByIdAndUpdate(id, {
+        bookName,
+        bookPrice,
+        isbnNumber,
+        authorName,
+        publishedAt
+    })
+    res.status(200).json({
+        message : "Book updated successfully"
+    })
+    
+})
 
 
 
